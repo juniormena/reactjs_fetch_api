@@ -2,7 +2,8 @@ import React,{Fragment} from  'react';
 import Card from '../components/card/card'
 
 
-const API = process.env.API2;
+const API = process.env.API;
+const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTg3OTM3MTE3LCJqdGkiOiI2NGZmZTYwZTE1ZGU0ZTQ1YWYyYzk1MTU4MDE5ZmMwZSIsInVzZXJfaWQiOjF9.7THayV79W9YT2RnhCtcjspavVPV4eNhaj7zgIbp7bDw'
 
 class List extends React.Component{
 
@@ -14,14 +15,22 @@ class List extends React.Component{
             error:'',
             loading:true
         }
-    }
+    }//`${API}&s=batman`
     async componentDidMount(){
-        const res = await fetch(`${API2}`);
+        const res = await fetch('http://localhost:8000/api/articles/',{
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization':'Bearer ' + token,
+                'Access-Control-Allow-Origin': '*',
+            }
+        });
         const resJson = await res.json();
-        this.setState({
+        console.log(resJson);
+        /*this.setState({
             data:resJson.Search,
             loading:false
-        })
+        })*/
     }
 
    async handleSubmit(e){
@@ -47,7 +56,7 @@ class List extends React.Component{
     render(){
         const {data,loading} = this.state;
         if(loading){
-            return <div class="text-center">Loading....</div>
+            return <div className="text-center">Loading....</div>
         }
         return( 
             <Fragment>
